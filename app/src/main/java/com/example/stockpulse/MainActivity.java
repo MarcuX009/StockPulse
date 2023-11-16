@@ -15,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-    protected void onPuase() {
-        super.onPause();
-    }
+//    @Override
+//    protected void onPuase() {
+//        super.onPause();
+//    }
 
     @Override
     protected void onResume() {

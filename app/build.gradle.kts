@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.stockpulse"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.stockpulse"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -26,6 +26,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
