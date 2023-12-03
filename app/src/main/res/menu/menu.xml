@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/homeButtonLayout"
-        android:icon="@drawable/ic_home"
-        android:title="Home Button"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/favouritesLayout"
-        android:icon="@drawable/ic_list"
-        android:title="favourites"
-        app:showAsAction="always" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home_button" />
+        <item
+            android:id="@+id/menu_favourites"
+            android:icon="@drawable/ic_favourites"
+            android:title="@string/favourites_button" />
+        <item
+            android:id="@+id/menu_simulator"
+            android:icon="@drawable/ic_simulator"
+            android:title="@string/simulator_button" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/about_button" />
+    </group>
 
-    <item
-        android:id="@+id/simulatorLayout"
-        android:icon="@drawable/ic_calculator"
-        android:title="simulator"
-        app:showAsAction="always" />
-
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/menu_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="@string/logout_button" />
+        </menu>
+    </item>
 
 </menu>
