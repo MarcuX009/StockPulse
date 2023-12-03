@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
 
+
+    // savedInstanceState used to restore the state of the activity, it cant hold large data
+    // the bundle object has the data limited, TransactionTooLargeException will be thrown if the data is too large
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
