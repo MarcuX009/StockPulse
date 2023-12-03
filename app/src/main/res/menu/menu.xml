@@ -3,24 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title = "Home Button"
-        android:icon="@drawable/ic_home"
         android:id="@+id/homeButtonLayout"
-        app:showAsAction="ifRoom"
-        />
+        android:icon="@drawable/ic_home"
+        android:title="Home Button"
+        app:showAsAction="ifRoom" />
     <item
-        android:title = "Personal List"
+        android:id="@+id/favouritesLayout"
         android:icon="@drawable/ic_list"
-        android:id = "@+id/userListLayout"
-        app:showAsAction="always"
-        />
+        android:title="favourites"
+        app:showAsAction="always" />
 
     <item
-        android:title="simulator"
+        android:id="@+id/simulatorLayout"
         android:icon="@drawable/ic_calculator"
-        android:id = "@+id/simulatorLayout"
-        app:showAsAction="always"
-        />
+        android:title="simulator"
+        app:showAsAction="always" />
 
 
 </menu>
