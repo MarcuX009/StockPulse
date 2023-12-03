@@ -31,16 +31,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.userListLayout){
-            Toast.makeText(this, "user list selected ", Toast.LENGTH_SHORT).show();
-        }
-        else if (item.getItemId() == R.id.simulatorLayout){
+        if (item.getItemId() == R.id.favouritesLayout) {
+            Toast.makeText(this, "favourites selected ", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.simulatorLayout) {
             Toast.makeText(this, " simulator selected", Toast.LENGTH_SHORT).show();
         }
         else if (item.getItemId() == R.id.homeButtonLayout){
