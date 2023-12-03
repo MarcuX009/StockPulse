@@ -2,13 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title = "Personal List"
-        android:id = "@+id/userListLayout"
-        />
+        android:id="@+id/favouritesLayout"
+        android:title="Favourites" />
 
     <item
-        android:title="simulator"
-        android:id = "@+id/simulatorLayout"
-        />
+        android:id="@+id/simulatorLayout"
+        android:title="Simulator" />
 
 </menu>
