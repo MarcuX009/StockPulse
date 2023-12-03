@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.simulatorLayout) {
             Toast.makeText(this, " simulator selected", Toast.LENGTH_SHORT).show();
         }
+        else if (item.getItemId() == R.id.homeButtonLayout){
+            Toast.makeText(this, "home button selected", Toast.LENGTH_SHORT).show();
+        }
 
         return super.onOptionsItemSelected(item);
     }
