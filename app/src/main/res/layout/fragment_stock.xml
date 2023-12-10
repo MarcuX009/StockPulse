@@ -16,17 +16,19 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic"/>
+
     <TextView
         android:id="@+id/differencePercentLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Difference Percent"
         android:layout_alignStart="@+id/closeLayout"
         android:layout_alignTop="@+id/differenceLayout"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="32dp"
+        android:text="Difference Percent"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
+
     <TextView
         android:id="@+id/highLayout"
         android:layout_width="wrap_content"
