@@ -22,9 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/stockNameValueLayout"
-
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@+id/stockNameValueLayout"
+        android:layout_marginStart="-125dp"
         android:layout_marginTop="3dp"
         android:layout_marginRight="18dp"
         android:layout_toLeftOf="@id/stockNameValueLayout"
@@ -123,9 +122,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/stockNameValueLayout"
-        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@+id/stockNameValueLayout"
         android:layout_marginTop="3sp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="-125dp"
         android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -220,18 +219,20 @@
         android:id="@+id/saveButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="50sp"
-        android:layout_below="@+id/volumeLayout"
-        android:layout_alignStart="@+id/closeLayout"
-        android:layout_marginTop="60sp"
+        android:layout_alignBottom="@+id/volumeLayout"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/volumeLayout"
         android:drawableTop="@drawable/ic_save" />
 
     <Button
         android:id="@+id/shareButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="50sp"
-        android:layout_below="@+id/volumeValueLayout"
-        android:layout_alignEnd="@+id/closeValueLayout"
-        android:layout_marginTop="60sp"
+        android:layout_alignBottom="@+id/volumeValueLayout"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/volumeValueLayout"
         android:drawableTop="@drawable/ic_share" />
 
 </RelativeLayout>

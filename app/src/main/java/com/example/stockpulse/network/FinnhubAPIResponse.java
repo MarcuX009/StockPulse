@@ -15,7 +15,8 @@ public class FinnhubAPIResponse implements Serializable {
     private double pc; // 昨日收盘价 previous close
     private long t; // 时间戳 timestamp
 
-    public FinnhubAPIResponse(String stockSymbol, double c, double d, double dp, double h, double l, double o, double pc, long t) {
+    public FinnhubAPIResponse(double c, double d, double dp, double h, double l, double o, double pc, long t) {
+        // this.stockSymbol = stockSymbol; // finnhub api does not return stock symbol
         this.c = c;
         this.d = d;
         this.dp = dp;
