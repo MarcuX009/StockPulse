@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
         searchButtonUI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userInput = userInputUI.getText().toString();
+                String userInput = userInputUI.getText().toString().toUpperCase();
                 if (userInput.isEmpty()) {
                     Toast.makeText(getContext(), "Please enter a stock symbol", Toast.LENGTH_SHORT).show();
                 } else {
