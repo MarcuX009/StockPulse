@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutFragment">
+
+    <TextView
+        android:id="@+id/differenceLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Difference"
+        android:layout_alignStart="@+id/closeLayout"
+        android:layout_alignTop="@+id/closeLayout"
+        android:layout_marginTop="40sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/differencePercentLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Difference Percent"
+        android:layout_alignStart="@+id/closeLayout"
+        android:layout_alignTop="@+id/differenceLayout"
+        android:layout_marginTop="40sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/closeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="35sp"
+        android:layout_marginTop="40sp"
+        android:layout_toLeftOf="@id/stockNameValueLayout"
+        android:text="Close"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/differenceValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/closeValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="diffValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/differencePercentValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/differenceValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="dPValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/highValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/differencePercentValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="HighValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+    <TextView
+        android:id="@+id/lowValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/highValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="LowValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/openValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/lowValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="OpenValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+    <TextView
+        android:id="@+id/previousCloseValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/openValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="pcValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+    <TextView
+        android:id="@+id/volumeValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/closeValueLayout"
+        android:layout_alignTop="@+id/previousCloseValueLayout"
+        android:layout_marginTop="40sp"
+        android:text="VolumeValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/closeValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="45sp"
+        android:layout_marginTop="40sp"
+        android:layout_toRightOf="@+id/stockNameValueLayout"
+        android:text="CloseValue"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/stockNameValueLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:layout_centerHorizontal="true"
+        android:text="Stock Name"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <Button
+        android:id="@+id/saveButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_marginTop="500sp"
+        android:drawableTop="@drawable/ic_save" />
+
+    <Button
+        android:id="@+id/shareButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="500sp"
+        android:drawableTop="@drawable/ic_share"/>
+
+</RelativeLayout>
