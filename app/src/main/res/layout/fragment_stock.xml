@@ -103,7 +103,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/closeValueLayout"
         android:layout_marginTop="30sp"
-        android:text="diffValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -114,7 +114,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/differenceValueLayout"
         android:layout_marginTop="30sp"
-        android:text="dPValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -125,7 +125,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/differencePercentValueLayout"
         android:layout_marginTop="30sp"
-        android:text="HighValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -136,7 +136,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/highValueLayout"
         android:layout_marginTop="30sp"
-        android:text="LowValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -147,7 +147,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/lowValueLayout"
         android:layout_marginTop="30sp"
-        android:text="OpenValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -158,7 +158,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/openValueLayout"
         android:layout_marginTop="30sp"
-        android:text="pcValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -169,7 +169,7 @@
         android:layout_alignEnd="@+id/closeValueLayout"
         android:layout_alignTop="@+id/previousCloseValueLayout"
         android:layout_marginTop="30sp"
-        android:text="VolumeValue"
+        android:text="@string/undefined_hint2"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -181,7 +181,7 @@
         android:layout_marginRight="45sp"
         android:layout_marginTop="30sp"
         android:layout_toRightOf="@+id/stockNameValueLayout"
-        android:text="CloseValue"
+        android:text="@string/undefined_hint"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="normal" />

@@ -46,9 +46,9 @@ public class HomeFragment extends Fragment {
     private ListView stockListViewUI;
     private EditText userInputUI;
     private Button searchButtonUI;
-    String sampleData[] = {"data","data","data","data","data","data","data","data","data","data"};
+    String sampleData[] = {"data", "data", "data", "data", "data", "data", "data", "data", "data", "data"};
     ArrayAdapter<String> arrayAdapter;
-    private ToggleButton toggleButton;
+    private ToggleButton toggleButtonUI;
     private boolean isYahoo = false;
 
     public HomeFragment() {
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
         stockListViewUI = view.findViewById(R.id.stockListLayout);
         userInputUI = view.findViewById(R.id.searchBarLayout);
         searchButtonUI = view.findViewById(R.id.searchButtonLayout);
-        toggleButton = view.findViewById(R.id.toggleButtonLayout);
+        toggleButtonUI = view.findViewById(R.id.toggleButtonLayout);
 
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sampleData);
         stockListViewUI.setAdapter(arrayAdapter);
@@ -81,17 +81,38 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleButtonUI.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isYahoo = isChecked;
-                Toast.makeText(getActivity(),"Yahoo is True!", Toast.LENGTH_SHORT).show();
+                Log.d("DEBUG_LOG", "isYahoo: " + isYahoo);
             }
         });
 
+        searchButtonUI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userInput = userInputUI.getText().toString();
+                if (userInput.isEmpty()) {
+                    Toast.makeText(getContext(), "Please enter a stock symbol", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (isYahoo) {
+                        YFAPICall(userInput);
+                    }
+                    else {
+                        FHAPICall(userInput);
+                    }
+                }
+            }
+        });
 
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    private void YFAPICall(String userInputStockSymbol) {
         YahooFinanceService YF_service = RetrofitInstance.getYahooFinanceRetrofitInstance().create(YahooFinanceService.class);
-        Call<String> YF_call = YF_service.getStockData("AAPL");
+        Call<String> YF_call = YF_service.getStockData(userInputStockSymbol);
         YF_call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
@@ -110,10 +131,17 @@ public class HomeFragment extends Fragment {
                         String o = doc.select("td[data-test='OPEN-value']").first().text();
                         String pc = doc.select("td[data-test='PREV_CLOSE-value']").first().text();
                         String v = doc.select("td[data-test='TD_VOLUME-value']").first().text().replace(",", "");
-                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
+                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
                         Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toString());
+                        if(getActivity() != null) {
+                            StockFragment fragment = StockFragment.newInstance(responseData, null);
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error code: YFAPIFAIL\n Ask developer for help or create an Issue in github.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
                         Log.d("DEBUG_LOG", "Error: " + e.getMessage());
                     }
                     // this version of code will print the price of the Apple in the logcat
@@ -125,9 +153,11 @@ public class HomeFragment extends Fragment {
                 Log.d("DEBUG_LOG", "API request failed: " + t.getMessage());
             }
         });
+    }
 
+    private void FHAPICall(String userInputStockSymbol) {
         FinnhubService FH_service = RetrofitInstance.getFinnhubRetrofitInstance().create(FinnhubService.class);
-        Call<FinnhubAPIResponse> FH_call = FH_service.getStockData("AAPL", "clmkkrhr01qjj8i8joi0clmkkrhr01qjj8i8joig");
+        Call<FinnhubAPIResponse> FH_call = FH_service.getStockData(userInputStockSymbol, "clmkkrhr01qjj8i8joi0clmkkrhr01qjj8i8joig");
         FH_call.enqueue(new Callback<FinnhubAPIResponse>() {
             @Override
             public void onResponse(@NonNull Call<FinnhubAPIResponse> call, @NonNull Response<FinnhubAPIResponse> response) {
@@ -135,25 +165,26 @@ public class HomeFragment extends Fragment {
                     try {
                         FinnhubAPIResponse responseData = response.body();
                         assert responseData != null;
+                        responseData.setStockSymbol(userInputStockSymbol);
                         Log.d("DEBUG_LOG", "Testing API call from FH:\n" + responseData.toString());
+                        if(getActivity() != null) {
+                            StockFragment fragment = StockFragment.newInstance(null, responseData);
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error code: FHAPIFAIL\n Ask developer for help or create an Issue in github.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error code: FHAPIFAIL", Toast.LENGTH_SHORT).show();
                         Log.d("DEBUG_LOG", "Error: " + e.getMessage());
                     }
                 }
             }
+
             @Override
             public void onFailure(@NonNull Call<FinnhubAPIResponse> call, @NonNull Throwable t) {
                 Log.d("DEBUG_LOG", "API request failed: " + t.getMessage());
             }
-           
         });
-
-
-        // Inflate the layout for this fragment
-
-        return view;
     }
-
-
 }

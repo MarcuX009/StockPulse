@@ -9,4 +9,6 @@
     <string name="logout_button">Logout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="undefined_hint">undefined</string>
+    <string name="undefined_hint2">undefined in Finnhub</string>
 </resources>
