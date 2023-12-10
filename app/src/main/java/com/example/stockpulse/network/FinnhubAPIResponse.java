@@ -1,6 +1,11 @@
 package com.example.stockpulse.network;
 
-public class FinnhubAPIResponse {
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class FinnhubAPIResponse implements Serializable {
+    private String stockSymbol;
     private double c; // 收盘价 close
     private double d; // 涨跌额 difference
     private double dp; // 涨跌幅 difference percent
@@ -10,7 +15,7 @@ public class FinnhubAPIResponse {
     private double pc; // 昨日收盘价 previous close
     private long t; // 时间戳 timestamp
 
-    public FinnhubAPIResponse(double c, double d, double dp, double h, double l, double o, double pc, long t) {
+    public FinnhubAPIResponse(String stockSymbol, double c, double d, double dp, double h, double l, double o, double pc, long t) {
         this.c = c;
         this.d = d;
         this.dp = dp;
@@ -21,6 +26,7 @@ public class FinnhubAPIResponse {
         this.t = t;
     }
 
+    public String getStockSymbol() {return stockSymbol;}
     public double getC() {return c;}
     public double getD() {return d;}
     public double getDp() {return dp;}
@@ -30,6 +36,7 @@ public class FinnhubAPIResponse {
     public double getPc() {return pc;}
     public long getT() {return t;}
 
+    public void setStockSymbol(String stockSymbol) {this.stockSymbol = stockSymbol;}
     public void setC(double c) {this.c = c;}
     public void setD(double d) {this.d = d;}
     public void setDp(double dp) {this.dp = dp;}
@@ -39,9 +46,11 @@ public class FinnhubAPIResponse {
     public void setPc(double pc) {this.pc = pc;}
     public void setT(long t) {this.t = t;}
 
+    @NonNull
     @Override
     public String toString() {
-        return "close: " + c + "\n" +
+        return "stock symbol: " + stockSymbol + "\n" +
+                "close: " + c + "\n" +
                 "difference: " + d + "\n" +
                 "difference percent: " + dp + "\n" +
                 "high: " + h + "\n" +

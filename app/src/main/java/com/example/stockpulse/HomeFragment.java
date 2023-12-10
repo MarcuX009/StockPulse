@@ -131,10 +131,10 @@ public class HomeFragment extends Fragment {
                         String o = doc.select("td[data-test='OPEN-value']").first().text();
                         String pc = doc.select("td[data-test='PREV_CLOSE-value']").first().text();
                         String v = doc.select("td[data-test='TD_VOLUME-value']").first().text().replace(",", "");
-                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
+                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
                         Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toString());
                         if(getActivity() != null) {
-                            StockFragment fragment = StockFragment.newInstance(responseData.toString());
+                            StockFragment fragment = StockFragment.newInstance(responseData, null);
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, fragment)
                                     .addToBackStack(null)
@@ -165,9 +165,10 @@ public class HomeFragment extends Fragment {
                     try {
                         FinnhubAPIResponse responseData = response.body();
                         assert responseData != null;
+                        responseData.setStockSymbol(userInputStockSymbol);
                         Log.d("DEBUG_LOG", "Testing API call from FH:\n" + responseData.toString());
                         if(getActivity() != null) {
-                            StockFragment fragment = StockFragment.newInstance(responseData.toString());
+                            StockFragment fragment = StockFragment.newInstance(null, responseData);
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, fragment)
                                     .addToBackStack(null)
