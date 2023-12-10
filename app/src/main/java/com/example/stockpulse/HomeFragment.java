@@ -14,9 +14,12 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
 
@@ -44,6 +47,8 @@ public class HomeFragment extends Fragment {
     private Button searchButtonUI;
     String sampleData[] = {"data","data","data","data","data","data","data","data","data","data"};
     ArrayAdapter<String> arrayAdapter;
+    private ToggleButton toggleButton;
+    private boolean isYahoo = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class HomeFragment extends Fragment {
         stockListViewUI = view.findViewById(R.id.stockListLayout);
         userInputUI = view.findViewById(R.id.searchBarLayout);
         searchButtonUI = view.findViewById(R.id.searchButtonLayout);
+        toggleButton = view.findViewById(R.id.toggleButtonLayout);
 
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sampleData);
         stockListViewUI.setAdapter(arrayAdapter);
@@ -73,6 +79,15 @@ public class HomeFragment extends Fragment {
 //                arrayAdapter.notifyDataSetChanged();
 //            }
 //        });
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isYahoo = isChecked;
+                Toast.makeText(getActivity(),"Yahoo is True!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         YahooFinanceService YF_service = RetrofitInstance.getYahooFinanceRetrofitInstance().create(YahooFinanceService.class);
         Call<String> YF_call = YF_service.getStockData("AAPL");

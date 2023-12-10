@@ -11,25 +11,34 @@
         android:id="@+id/searchBarLayout"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toStartOf="@+id/searchButtonLayout"
-        android:text="Enter Stock Name" />
+        android:layout_toRightOf="@+id/toggleButtonLayout"
+        android:layout_toLeftOf="@id/searchButtonLayout"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"
+        android:hint="Enter Stock Name" />
 
     <Button
         android:id="@+id/searchButtonLayout"
-        android:layout_width="115dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="42dp"
+        android:layout_marginEnd="5sp"
+        android:textColor="@color/black"
         android:text="search" />
+
+    <ToggleButton
+        android:id="@+id/toggleButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textOff = "Yahoo"
+        android:textOn = "Finnhub" />
 
     <ListView
         android:id="@+id/stockListLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchButtonLayout"
-        />.
+        />
 
 </RelativeLayout>
