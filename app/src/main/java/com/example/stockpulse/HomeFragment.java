@@ -29,6 +29,7 @@ import java.util.List;
 import com.example.stockpulse.network.FinnhubService;
 import com.example.stockpulse.network.RetrofitInstance;
 import com.example.stockpulse.network.FinnhubAPIResponse;
+import com.example.stockpulse.network.YahooFinanceAPIResponse;
 import com.example.stockpulse.network.YahooFinanceService;
 
 import org.jsoup.Jsoup;
@@ -100,10 +101,19 @@ public class HomeFragment extends Fragment {
                     // Log.d("DEBUG_LOG", htmlContent);
                     Document doc = Jsoup.parse(htmlContent);
                     try {
-                        Element priceElement = doc.selectFirst("fin-streamer[data-field=regularMarketPrice]");
-                        String close = priceElement.attr("value");
-                        Log.d("DEBUG_LOG", "Testing API call from YF -- close: " +close);
+                        String c = doc.selectFirst("fin-streamer[data-field=regularMarketPrice]").attr("value");
+                        String d = doc.selectFirst("fin-streamer[data-field=regularMarketChange]").attr("value");
+                        String dp = doc.selectFirst("fin-streamer[data-field=regularMarketChangePercent]").attr("value");
+                        String[] daysRangeValues = doc.select("td[data-test='DAYS_RANGE-value']").first().text().split(" - ");
+                        String h = daysRangeValues[1];
+                        String l = daysRangeValues[0];
+                        String o = doc.select("td[data-test='OPEN-value']").first().text();
+                        String pc = doc.select("td[data-test='PREV_CLOSE-value']").first().text();
+                        String v = doc.select("td[data-test='TD_VOLUME-value']").first().text().replace(",", "");
+                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
+                        Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toString());
                     } catch (Exception e) {
+                        Toast.makeText(getContext(), "Error code: YFAPIFAIL\n Ask developer for help or create an Issue in github.", Toast.LENGTH_SHORT).show();
                         Log.d("DEBUG_LOG", "Error: " + e.getMessage());
                     }
                     // this version of code will print the price of the Apple in the logcat
@@ -125,9 +135,9 @@ public class HomeFragment extends Fragment {
                     try {
                         FinnhubAPIResponse responseData = response.body();
                         assert responseData != null;
-                        double close = responseData.getC();
-                        Log.d("DEBUG_LOG", "Testing API call from FH -- close: " + close);
+                        Log.d("DEBUG_LOG", "Testing API call from FH:\n" + responseData.toString());
                     } catch (Exception e) {
+                        Toast.makeText(getContext(), "Error code: FHAPIFAIL\n Ask developer for help or create an Issue in github.", Toast.LENGTH_SHORT).show();
                         Log.d("DEBUG_LOG", "Error: " + e.getMessage());
                     }
                 }
