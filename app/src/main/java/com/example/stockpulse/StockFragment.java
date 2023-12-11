@@ -1,5 +1,8 @@
 package com.example.stockpulse;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,14 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.YahooFinanceAPIResponse;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class StockFragment extends Fragment {
-    private static final String ARG_SATELLITES = "satellites";
+    private static final String PREFS_NAME = "StockPulse_Prefs";
+    private static final String ARG_SATELLITES = "STOCK";
     private YahooFinanceAPIResponse yf_Info;
     private FinnhubAPIResponse fh_Info;
     private View view;
@@ -28,10 +36,13 @@ public class StockFragment extends Fragment {
     private TextView o_TextView;
     private TextView pc_TextView;
     private TextView v_TextView;
+    private Button saveButton;
+    private Button shareButton;
 
     public StockFragment() {
         // Required empty public constructor
     }
+
     public static StockFragment newInstance(YahooFinanceAPIResponse yfStockInfo, FinnhubAPIResponse fhStockInfo) {
         StockFragment fragment = new StockFragment();
         Bundle args = new Bundle();
@@ -56,8 +67,11 @@ public class StockFragment extends Fragment {
                 fh_Info = (FinnhubAPIResponse) getArguments().getSerializable(ARG_SATELLITES);
                 Log.d("DEBUG_LOG", "StockFragment onCreate:\n" + fh_Info);
             }
+        } else {
+            Log.d("DEBUG_LOG", "StockFragment onCreate: getArguments() is null");
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -78,6 +92,8 @@ public class StockFragment extends Fragment {
         o_TextView = view.findViewById(R.id.openValueLayout);
         pc_TextView = view.findViewById(R.id.previousCloseValueLayout);
         v_TextView = view.findViewById(R.id.volumeValueLayout);
+        saveButton = view.findViewById(R.id.saveButtonLayout);
+        shareButton = view.findViewById(R.id.shareButtonLayout);
         if (yf_Info != null) {
             stockSymbol_TextView.setText(yf_Info.getStockSymbol());
             c_TextView.setText(String.valueOf(yf_Info.getC()));
@@ -98,6 +114,42 @@ public class StockFragment extends Fragment {
             o_TextView.setText(String.valueOf(fh_Info.getO()));
             pc_TextView.setText(String.valueOf(fh_Info.getPc()));
         }
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("DEBUG_LOG", "Save button clicked");
+                try {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet("FavouritesList", new HashSet<>()));
+                    if (yf_Info != null) {
+                        favourites.add(yf_Info.getStockSymbol());
+                        editor.putString(yf_Info.getStockSymbol(), yf_Info.toString());
+                    } else if (fh_Info != null) {
+                        favourites.add(fh_Info.getStockSymbol());
+                        editor.putString(fh_Info.getStockSymbol(), fh_Info.toString());
+                    }
+                    editor.putStringSet("FavouritesList", favourites);
+                    editor.apply();
+                    Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
+                    Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
+                    for (String favourite : favouritesSet) {
+                        Log.d("DEBUG_LOG", "Favourite: " + favourite);
+                        Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite,""));
+                    }
+                } catch (Exception e) {
+                    Log.d("DEBUG_LOG", "Error: " + e.getMessage());
+                }
+            }
+        });
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("DEBUG_LOG", "Share button clicked");
+            }
+        });
+
         return view;
     }
 }
