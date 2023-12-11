@@ -22,6 +22,4 @@ public class stockItem {
     public double getStockPercent() {
         return stockPercent;
     }
-
-
 }

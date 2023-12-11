@@ -1,5 +1,7 @@
 package com.example.stockpulse.network;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -15,6 +17,44 @@ public class YahooFinanceAPIResponse implements Serializable {
     private double pc; // 昨日收盘价 previous close
     private int v; // 成交量 volume
 
+    public YahooFinanceAPIResponse(String stockSymbol, String stockDict) {
+        this.stockSymbol = stockSymbol;
+        stockDict = stockDict.substring(1, stockDict.length() - 1);
+        String[] stockDictList = stockDict.split(",");
+        for (String stockDictItem : stockDictList) {
+            String[] stockDictItemPair = stockDictItem.split(":");
+            // Log.d("DEBUG_LOG", "stockDictItemPair: " + stockDictItemPair[0] + "|" + stockDictItemPair[1]);
+            switch (stockDictItemPair[0]) {
+                case "c":
+                    this.c = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "d":
+                    this.d = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "dp":
+                    this.dp = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "h":
+                    this.h = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "l":
+                    this.l = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "o":
+                    this.o = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "pc":
+                    this.pc = Double.parseDouble(stockDictItemPair[1]);
+                    break;
+                case "v":
+                    this.v = Integer.parseInt(stockDictItemPair[1]);
+                    break;
+                default:
+                    Log.d("DEBUG_LOG", "stockDictItemPair: " + stockDictItemPair[0] + "|" + stockDictItemPair[1]);
+                    break;
+            }
+        }
+    }
     public YahooFinanceAPIResponse(String stockSymbol, double c, double d, double dp, double h, double l, double o, double pc, int v) {
         this.stockSymbol = stockSymbol;
         this.c = c;
@@ -49,14 +89,6 @@ public class YahooFinanceAPIResponse implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "{stock symbol: " + stockSymbol + ", "
-                + "close: " + c + ", "
-                + "difference: " + d + ", "
-                + "difference percent: " + dp + ", "
-                + "high: " + h + ", "
-                + "low: " + l + ", "
-                + "open: " + o + ", "
-                + "previous close: " + pc + ", "
-                + "volume: " + v + "}";
+        return "{c:"+c+",d:"+d+",dp:"+dp+",h:"+h+",l:"+l+",o:"+o+",pc:"+pc+",v:"+v+"}";
     }
 }
