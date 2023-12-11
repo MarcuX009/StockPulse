@@ -6,14 +6,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment implements RecyclerViewInterface{
 
     private List<stockItem> stockItemList;
     private RecyclerView favRecyclerView;
@@ -39,7 +41,7 @@ public class FavouritesFragment extends Fragment {
         stockItemList = generateStockItem();
         favRecyclerView = rootView.findViewById(R.id.favListLayout);
         favRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        stockAdapter = new stockAdapter(stockItemList);
+        stockAdapter = new stockAdapter(stockItemList, this);
         favRecyclerView.setAdapter(stockAdapter);
         return rootView;
     }
@@ -50,5 +52,11 @@ public class FavouritesFragment extends Fragment {
         stockItemList.add(new stockItem("AMZN", 147.42, 0.54));
         stockItemList.add(new stockItem("GOOG",136.64,-1.81));
         return stockItemList;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d("favList","List number:"+position);
+        Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
     }
 }
