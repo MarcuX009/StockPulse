@@ -49,14 +49,14 @@ public class YahooFinanceAPIResponse implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "stock symbol: " + stockSymbol + "\n" +
-                "close: " + c + "\n" +
-                "difference: " + d + "\n" +
-                "difference percent: " + dp + "\n" +
-                "high: " + h + "\n" +
-                "low: " + l + "\n" +
-                "open: " + o + "\n" +
-                "previous close: " + pc + "\n" +
-                "volume: " + v + "\n";
+        return "{stock symbol: " + stockSymbol + ", "
+                + "close: " + c + ", "
+                + "difference: " + d + ", "
+                + "difference percent: " + dp + ", "
+                + "high: " + h + ", "
+                + "low: " + l + ", "
+                + "open: " + o + ", "
+                + "previous close: " + pc + ", "
+                + "volume: " + v + "}";
     }
 }

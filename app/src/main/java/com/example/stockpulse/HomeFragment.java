@@ -2,8 +2,6 @@ package com.example.stockpulse;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -26,19 +24,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.stockpulse.network.FinnhubService;
-import com.example.stockpulse.network.RetrofitInstance;
 import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.YahooFinanceAPIResponse;
-import com.example.stockpulse.network.YahooFinanceService;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -97,10 +84,49 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Please enter a stock symbol", Toast.LENGTH_SHORT).show();
                 } else {
                     if (isYahoo) {
-                        YFAPICall(userInput);
-                    }
-                    else {
-                        FHAPICall(userInput);
+                        StockAPIHelper.YFAPICall(userInput, new StockAPIHelper.ResponseListener() {
+                            @Override
+                            public void onYFResponse(YahooFinanceAPIResponse responseData) {
+                                if (getActivity() != null) {
+                                    StockFragment fragment = StockFragment.newInstance(responseData, null);
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.fragment_container, fragment)
+                                            .addToBackStack(null)
+                                            .commit();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
+                                Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                            }
+                            @Override
+                            public void onFHResponse(FinnhubAPIResponse fhResponse) {
+                                // this should never be called, but it has to be implemented here to satisfy the interface
+                            }
+                        });
+                    } else {
+                        StockAPIHelper.FHAPICall(userInput, new StockAPIHelper.ResponseListener() {
+                            @Override
+                            public void onFHResponse(FinnhubAPIResponse responseData) {
+                                if (getActivity() != null) {
+                                    StockFragment fragment = StockFragment.newInstance(null, responseData);
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.fragment_container, fragment)
+                                            .addToBackStack(null)
+                                            .commit();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Toast.makeText(getContext(), "Error code: FHAPIFAIL", Toast.LENGTH_SHORT).show();
+                                Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                            }
+                            @Override
+                            public void onYFResponse(YahooFinanceAPIResponse yfResponse) {
+                                // this should never be called, but it has to be implemented here to satisfy the interface
+                            }
+                        });
                     }
                 }
             }
@@ -110,81 +136,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void YFAPICall(String userInputStockSymbol) {
-        YahooFinanceService YF_service = RetrofitInstance.getYahooFinanceRetrofitInstance().create(YahooFinanceService.class);
-        Call<String> YF_call = YF_service.getStockData(userInputStockSymbol);
-        YF_call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                if (response.isSuccessful()) {
-                    String htmlContent = response.body();
-                    assert htmlContent != null;
-                    // Log.d("DEBUG_LOG", htmlContent);
-                    Document doc = Jsoup.parse(htmlContent);
-                    try {
-                        String c = doc.selectFirst("fin-streamer[data-field=regularMarketPrice]").attr("value");
-                        String d = doc.selectFirst("fin-streamer[data-field=regularMarketChange]").attr("value");
-                        String dp = doc.selectFirst("fin-streamer[data-field=regularMarketChangePercent]").attr("value");
-                        String[] daysRangeValues = doc.select("td[data-test='DAYS_RANGE-value']").first().text().split(" - ");
-                        String h = daysRangeValues[1];
-                        String l = daysRangeValues[0];
-                        String o = doc.select("td[data-test='OPEN-value']").first().text();
-                        String pc = doc.select("td[data-test='PREV_CLOSE-value']").first().text();
-                        String v = doc.select("td[data-test='TD_VOLUME-value']").first().text().replace(",", "");
-                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
-                        Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toString());
-                        if(getActivity() != null) {
-                            StockFragment fragment = StockFragment.newInstance(responseData, null);
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, fragment)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
-                        Log.d("DEBUG_LOG", "Error: " + e.getMessage());
-                    }
-                    // this version of code will print the price of the Apple in the logcat
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                Log.d("DEBUG_LOG", "API request failed: " + t.getMessage());
-            }
-        });
-    }
 
-    private void FHAPICall(String userInputStockSymbol) {
-        FinnhubService FH_service = RetrofitInstance.getFinnhubRetrofitInstance().create(FinnhubService.class);
-        Call<FinnhubAPIResponse> FH_call = FH_service.getStockData(userInputStockSymbol, "clmkkrhr01qjj8i8joi0clmkkrhr01qjj8i8joig");
-        FH_call.enqueue(new Callback<FinnhubAPIResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<FinnhubAPIResponse> call, @NonNull Response<FinnhubAPIResponse> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        FinnhubAPIResponse responseData = response.body();
-                        assert responseData != null;
-                        responseData.setStockSymbol(userInputStockSymbol);
-                        Log.d("DEBUG_LOG", "Testing API call from FH:\n" + responseData.toString());
-                        if(getActivity() != null) {
-                            StockFragment fragment = StockFragment.newInstance(null, responseData);
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, fragment)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error code: FHAPIFAIL", Toast.LENGTH_SHORT).show();
-                        Log.d("DEBUG_LOG", "Error: " + e.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<FinnhubAPIResponse> call, @NonNull Throwable t) {
-                Log.d("DEBUG_LOG", "API request failed: " + t.getMessage());
-            }
-        });
-    }
 }
