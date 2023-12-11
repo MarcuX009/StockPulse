@@ -39,7 +39,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/simulatorStockPriceValueLayout"
         android:gravity="left"
-        android:text="StockName"
+        android:text="Name"
         android:textSize="30sp" />
 
     <TextView
@@ -72,7 +72,8 @@
         android:layout_toRightOf="@+id/buyLayout"
         android:gravity="center"
         android:hint="Price"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:id="@+id/sellLayout"
@@ -94,6 +95,7 @@
         android:layout_toRightOf="@+id/buyLayout"
         android:gravity="center"
         android:hint="Price"
+        android:inputType="numberDecimal"
         android:textSize="20sp" />
 
     <EditText
@@ -106,6 +108,7 @@
         android:layout_toRightOf="@+id/sellInputPriceLayout"
         android:gravity="center"
         android:hint="Amount of Stocks"
+        android:inputType="numberDecimal"
         android:textSize="20sp" />
 
     <EditText
@@ -118,6 +121,7 @@
         android:layout_toRightOf="@+id/buyInputPriceLayout"
         android:gravity="center"
         android:hint="Amount of Stocks"
+        android:inputType="number"
         android:textSize="20sp" />
 
     <Button
