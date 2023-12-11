@@ -33,12 +33,10 @@
         android:layout_marginLeft="5dp"
         android:textOff = "Finnhub"
         android:textOn = "Yahoo" />
-
-    <ListView
-        android:id="@+id/stockListLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeListLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchButtonLayout"
-        android:layout_marginTop="-2dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchBarLayout"/>
 
 </RelativeLayout>
