@@ -1,5 +1,7 @@
 package com.example.stockpulse;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.stockpulse.network.YahooFinanceAPIResponse;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FavouritesFragment extends Fragment implements RecyclerViewInterface{
-
-    private List<stockItem> stockItemList;
+    private static final String PREFS_NAME = "StockPulse_Prefs";
+    private List<YahooFinanceAPIResponse> stockItemList;
     private RecyclerView favRecyclerView;
     private stockAdapter stockAdapter;
 
@@ -36,7 +42,6 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View rootView = inflater.inflate(R.layout.fragment_favourites, container, false);
         stockItemList = generateStockItem();
         favRecyclerView = rootView.findViewById(R.id.favListLayout);
@@ -46,11 +51,17 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
         return rootView;
     }
 
-    public List<stockItem> generateStockItem() {
-        List<stockItem> stockItemList = new ArrayList<>();
-        stockItemList.add(new stockItem("AAPL", 195.71, 1.44));
-        stockItemList.add(new stockItem("AMZN", 147.42, 0.54));
-        stockItemList.add(new stockItem("GOOG",136.64,-1.81));
+    public List<YahooFinanceAPIResponse> generateStockItem() {
+        List<YahooFinanceAPIResponse> stockItemList = new ArrayList<>();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
+        Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
+        for (String favourite : favouritesSet) {
+            Log.d("DEBUG_LOG", "Favourite: " + favourite);
+            Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite,""));
+            stockItemList.add(new YahooFinanceAPIResponse(favourite, sharedPreferences.getString(favourite,"")));
+        }
         return stockItemList;
     }
 

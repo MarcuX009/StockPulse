@@ -8,14 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stockpulse.network.YahooFinanceAPIResponse;
+
 import java.util.List;
 
 public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHolder> {
 
-    private List<stockItem> stockItemList;
-    private  final RecyclerViewInterface recyclerViewInterface;
+    private List<YahooFinanceAPIResponse> stockItemList;
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public stockAdapter(List<stockItem> stockItemList,
+    public stockAdapter(List<YahooFinanceAPIResponse> stockItemList,
                         RecyclerViewInterface recyclerViewInterface) {
         this. recyclerViewInterface = recyclerViewInterface;
         this.stockItemList = stockItemList;
@@ -57,15 +59,15 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
 
     @Override
     public void onBindViewHolder(@NonNull stockAdapter.StockViewHolder holder, int position) {
-        stockItem stockItem = stockItemList.get(position);
-        holder.stockNameUI.setText(stockItem.getStockName());
-        holder.stockValueUI.setText(String.valueOf(stockItem.getStockValue()));
-        if(stockItem.getStockPercent() >= 0) {
-            holder.stockPercentUpUI.setText(String.valueOf(stockItem.getStockPercent()));
+        YahooFinanceAPIResponse stockObject = stockItemList.get(position);
+        holder.stockNameUI.setText(stockObject.getStockSymbol());
+        holder.stockValueUI.setText(String.valueOf(stockObject.getC()));
+        if(stockObject.getD() >= 0) {
+            holder.stockPercentUpUI.setText(String.valueOf(stockObject.getD()));
             holder.stockPercentUpUI.setVisibility(View.VISIBLE);
         }
         else{
-            holder.stockPercentDownUI.setText(String.valueOf(stockItem.getStockPercent()));
+            holder.stockPercentDownUI.setText(String.valueOf(stockObject.getD()));
             holder.stockPercentDownUI.setVisibility(View.VISIBLE);
         }
     }

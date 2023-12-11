@@ -1,4 +1,4 @@
-package com.example.stockpulse;
+package com.example.stockpulse.network;
 
 import android.util.Log;
 
