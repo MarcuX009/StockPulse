@@ -5,13 +5,161 @@
     android:layout_height="match_parent"
     tools:context=".SimulatorFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:id="@+id/simulatorUserInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_toLeftOf="@+id/simulatorSearchButton"
+        android:layout_toRightOf="@id/allClearButton"
+        android:hint="Enter Stock Name" />
+
+    <Button
+        android:id="@+id/allClearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:text="Clear"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/simulatorSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_alignParentEnd="true"
+        android:text="Search"
+        android:textStyle="bold" />
+
     <TextView
+        android:id="@+id/simulatorStockPriceLayout"
+        android:layout_width="190sp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/allClearButton"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/simulatorStockPriceValueLayout"
+        android:gravity="left"
+        android:text="StockName"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/simulatorStockPriceValueLayout"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/simulatorUserInputLayout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="14dp"
+        android:text="value"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/buyLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_below="@+id/simulatorStockPriceLayout"
+        android:layout_alignStart="@+id/simulatorStockPriceLayout"
+        android:layout_marginTop="15sp"
+        android:text="Buy-In"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/buyInputPriceLayout"
+        android:layout_width="99dp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/simulatorStockPriceValueLayout"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/buyLayout"
+        android:gravity="center"
+        android:hint="Price"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/sellLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_below="@+id/buyLayout"
+        android:layout_alignStart="@+id/buyLayout"
+        android:layout_marginTop="15sp"
+        android:text="Sell"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/sellInputPriceLayout"
+        android:layout_width="99dp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/buyInputPriceLayout"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/buyLayout"
+        android:gravity="center"
+        android:hint="Price"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/sellInputAmountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_below="@+id/buyInputPriceLayout"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/sellInputPriceLayout"
+        android:gravity="center"
+        android:hint="Amount of Stocks"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/buyInputAmountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_below="@+id/simulatorStockPriceValueLayout"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/buyInputPriceLayout"
+        android:gravity="center"
+        android:hint="Amount of Stocks"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/calculateButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sellInputAmountLayout"
         android:layout_centerInParent="true"
-        android:text="Simulator Fragment"
-        android:textColor="@color/cyan"
+        android:layout_marginTop="15sp"
+        android:text="Calculate"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/profitLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calculateButtonLayout"
+        android:layout_alignStart="@+id/sellLayout"
+        android:text="Profit"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/resultPositiveLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calculateButtonLayout"
+        android:layout_centerInParent="true"
+        android:text="result"
+        android:textColor="@color/green"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/resultNegativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calculateButtonLayout"
+        android:layout_centerInParent="true"
+        android:text="result"
+        android:textColor="@color/red"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
 
 </RelativeLayout>
