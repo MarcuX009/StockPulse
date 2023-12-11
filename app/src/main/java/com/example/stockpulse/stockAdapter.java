@@ -15,8 +15,11 @@ import java.util.List;
 public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHolder> {
 
     private List<YahooFinanceAPIResponse> stockItemList;
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public stockAdapter(List<YahooFinanceAPIResponse> stockItemList) {
+    public stockAdapter(List<YahooFinanceAPIResponse> stockItemList,
+                        RecyclerViewInterface recyclerViewInterface) {
+        this. recyclerViewInterface = recyclerViewInterface;
         this.stockItemList = stockItemList;
     }
 
@@ -26,12 +29,24 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
         TextView stockPercentUpUI;
         TextView stockPercentDownUI;
 
-        public StockViewHolder(@NonNull View itemView) {
+        public StockViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             stockNameUI = itemView.findViewById(R.id.stockNameDisplayLayout);
             stockValueUI = itemView.findViewById(R.id.stockValueDisplayLayout);
             stockPercentUpUI = itemView.findViewById(R.id.stockPercentUpDisplayLayout);
             stockPercentDownUI = itemView.findViewById(R.id.stockPercentDownDisplayLayout);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(recyclerViewInterface != null){
+                        int pos = getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -39,7 +54,7 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
     @Override
     public StockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
-        return new StockViewHolder(itemView);
+        return new StockViewHolder(itemView, recyclerViewInterface);
     }
 
     @Override

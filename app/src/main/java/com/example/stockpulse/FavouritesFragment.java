@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.stockpulse.network.YahooFinanceAPIResponse;
 
@@ -20,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FavouritesFragment extends Fragment {
+public class FavouritesFragment extends Fragment implements RecyclerViewInterface{
     private static final String PREFS_NAME = "StockPulse_Prefs";
     private List<YahooFinanceAPIResponse> stockItemList;
     private RecyclerView favRecyclerView;
@@ -45,7 +46,7 @@ public class FavouritesFragment extends Fragment {
         stockItemList = generateStockItem();
         favRecyclerView = rootView.findViewById(R.id.favListLayout);
         favRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        stockAdapter = new stockAdapter(stockItemList);
+        stockAdapter = new stockAdapter(stockItemList, this);
         favRecyclerView.setAdapter(stockAdapter);
         return rootView;
     }
@@ -61,8 +62,12 @@ public class FavouritesFragment extends Fragment {
             Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite,""));
             stockItemList.add(new YahooFinanceAPIResponse(favourite, sharedPreferences.getString(favourite,"")));
         }
-        // stockItemList.add(new YahooFinanceAPIResponse("AAPL", 195.71, 1.44));
-
         return stockItemList;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d("favList","List number:"+position);
+        Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
     }
 }
