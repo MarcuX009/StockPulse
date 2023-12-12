@@ -38,7 +38,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
     private boolean isYahoo = false;
     private RecyclerView homeListView;
     private stockAdapter stockAdapter;
-
     private List<StockObject> stockItemList;
 
     public HomeFragment() {
@@ -157,13 +156,13 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                         @Override
                         public void onYFResponse(StockObject responseData) {
                             if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> {
+//                                getActivity().runOnUiThread(() -> {
                                     AllStockList.remove(responseData.getStockSymbol());
                                     stockItemList.add(responseData);
                                     if (completedRequests.incrementAndGet() == 10) {
                                         stockAdapter.notifyDataSetChanged();
                                     }
-                                });
+//                                });
                             }
                         }
 

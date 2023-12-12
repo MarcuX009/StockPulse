@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.StockObject;
@@ -147,6 +148,7 @@ public class StockFragment extends Fragment {
                     }
                     editor.putStringSet("FavouritesList", favourites);
                     editor.apply();
+                    Toast.makeText(getActivity(), "Saved to Favourites", Toast.LENGTH_SHORT).show();
                     saveFavouritesToFirestore(favourites);
                     Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
                     Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
