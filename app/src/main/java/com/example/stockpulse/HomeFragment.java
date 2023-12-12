@@ -13,9 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
     private static final String PREFS_NAME = "StockPulse_Prefs";
     private View view;
     private EditText userInputUI;
-    private Button searchButtonUI;
+    private ImageButton searchButtonUI;
     private ToggleButton toggleButtonUI;
     private boolean isYahoo = false;
     private RecyclerView homeListView;

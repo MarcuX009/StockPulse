@@ -3,6 +3,7 @@ package com.example.stockpulse;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,17 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
         TextView stockPercentUpUI;
         TextView stockPercentDownUI;
 
+        ImageView upArrow;
+        ImageView downArrow;
+
         public StockViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             stockNameUI = itemView.findViewById(R.id.stockNameDisplayLayout);
             stockValueUI = itemView.findViewById(R.id.stockValueDisplayLayout);
             stockPercentUpUI = itemView.findViewById(R.id.stockPercentUpDisplayLayout);
             stockPercentDownUI = itemView.findViewById(R.id.stockPercentDownDisplayLayout);
+            upArrow = itemView.findViewById(R.id.arrowUpLayout);
+            downArrow =itemView.findViewById(R.id.arrowDownLayout);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,10 +84,12 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
         if(stockObject.getD() >= 0) {
             holder.stockPercentUpUI.setText(String.valueOf(stockObject.getD()));
             holder.stockPercentUpUI.setVisibility(View.VISIBLE);
+            holder.upArrow.setVisibility(View.VISIBLE);
         }
         else{
             holder.stockPercentDownUI.setText(String.valueOf(stockObject.getD()));
             holder.stockPercentDownUI.setVisibility(View.VISIBLE);
+            holder.downArrow.setVisibility(View.VISIBLE);
         }
     }
 
