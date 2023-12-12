@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="7dp"
-    app:cardElevation="5dp"
+    android:orientation="vertical"
     app:cardBackgroundColor="#0856AE"
-    android:orientation="vertical">
+    app:cardCornerRadius="7dp"
+    app:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
             android:id="@+id/stockNameDisplayLayout"
             android:layout_width="86dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="7dp"
             android:gravity="left"
             android:text="Stock "
@@ -31,8 +31,8 @@
             android:id="@+id/stockValueDisplayLayout"
             android:layout_width="88dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10sp"
-            android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockNameDisplayLayout"
             android:text="Value"
             android:textColor="#E6A027"
@@ -42,28 +42,27 @@
         <TextView
             android:id="@+id/stockPercentUpDisplayLayout"
             android:layout_width="132dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12sp"
-            android:layout_marginTop="8dp"
-            android:gravity="left"
             android:layout_toRightOf="@+id/stockValueDisplayLayout"
+            android:gravity="left"
             android:text="Stock Percent"
             android:textColor="@color/green"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/stockPercentDownDisplayLayout"
             android:layout_width="132dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockValueDisplayLayout"
-            android:text="Stock Percent"
             android:gravity="left"
-            android:textColor="#BD1414"
+            android:text="Stock Percent"
+            android:textColor="@color/red2"
             android:textSize="20sp"
             android:textStyle="italic"
             android:visibility="gone" />
@@ -72,20 +71,21 @@
             android:id="@+id/arrowDownLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src ="@drawable/ic_down"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/stockPercentDownDisplayLayout"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone"/>
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_down"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/arrowUpLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src ="@drawable/ic_up"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/stockPercentUpDisplayLayout"
-            android:layout_marginLeft="5dp"
-            android:visibility="gone"/>
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_up"
+            android:visibility="gone" />
 
 
     </RelativeLayout>
