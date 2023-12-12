@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stockpulse.network.YahooFinanceAPIResponse;
+import com.example.stockpulse.network.StockObject;
 
 import java.util.List;
 
 public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHolder> {
 
-    private List<YahooFinanceAPIResponse> stockItemList;
+    private List<StockObject> stockItemList;
     private final RecyclerViewInterface recyclerViewInterface;
 
-    public stockAdapter(List<YahooFinanceAPIResponse> stockItemList,
+    public stockAdapter(List<StockObject> stockItemList,
                         RecyclerViewInterface recyclerViewInterface) {
         this. recyclerViewInterface = recyclerViewInterface;
         this.stockItemList = stockItemList;
@@ -78,7 +78,7 @@ public class stockAdapter extends RecyclerView.Adapter<stockAdapter.StockViewHol
 
     @Override
     public void onBindViewHolder(@NonNull stockAdapter.StockViewHolder holder, int position) {
-        YahooFinanceAPIResponse stockObject = stockItemList.get(position);
+        StockObject stockObject = stockItemList.get(position);
         holder.stockNameUI.setText(stockObject.getStockSymbol());
         holder.stockValueUI.setText(String.valueOf(stockObject.getC()));
         if(stockObject.getD() >= 0) {

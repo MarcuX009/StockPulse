@@ -13,10 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.StockAPIHelper;
-import com.example.stockpulse.network.YahooFinanceAPIResponse;
+import com.example.stockpulse.network.StockObject;
 
 public class SimulatorFragment extends Fragment {
 
@@ -78,17 +76,18 @@ public class SimulatorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String userInput = searchUserInput.getText().toString().toUpperCase();
-                if(!userInput.isEmpty()){
+                if (!userInput.isEmpty()) {
                     StockAPIHelper.YFAPICall(userInput, new StockAPIHelper.ResponseListener() {
                         @Override
-                        public void onYFResponse(YahooFinanceAPIResponse response) {
-                            if (getActivity()!=null){
+                        public void onYFResponse(StockObject response) {
+                            if (getActivity() != null) {
                                 stockName.setText(response.getStockSymbol());
                                 stockValue.setText(String.valueOf(response.getC()));
                             }
                         }
+
                         @Override
-                        public void onFHResponse(FinnhubAPIResponse fhResponse) {
+                        public void onFHResponse(StockObject fhResponse) {
                             // this should never be called, but it has to be implemented here to satisfy the interface
                         }
 
@@ -98,8 +97,7 @@ public class SimulatorFragment extends Fragment {
                             Log.d("DEBUG_LOG", "Error: " + t.getMessage());
                         }
                     });
-                }
-                else{
+                } else {
                     Toast.makeText(getContext(), "Please enter something", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -140,7 +138,7 @@ public class SimulatorFragment extends Fragment {
                         positiveProfit.setText(formattedValue);
                         positiveProfit.setVisibility(View.VISIBLE);
                     } else {
-                       formattedValue = String.format("%.2f", result);
+                        formattedValue = String.format("%.2f", result);
                         negativeProfit.setText(formattedValue);
                         negativeProfit.setVisibility(View.VISIBLE);
                     }
