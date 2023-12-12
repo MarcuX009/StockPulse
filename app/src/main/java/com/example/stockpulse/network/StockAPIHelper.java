@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,7 +16,9 @@ import retrofit2.Response;
 public class StockAPIHelper {
     public interface ResponseListener {
         void onYFResponse(StockObject response);
+
         void onFHResponse(StockObject fhResponse);
+
         void onFailure(Throwable t);
     }
 
@@ -31,30 +34,42 @@ public class StockAPIHelper {
                     assert htmlContent != null;
                     // Log.d("DEBUG_LOG", htmlContent);
                     Document doc = Jsoup.parse(htmlContent);
+                    String c = "0";
+                    String d = "0";
+                    String dp = "0";
+                    String h = "0";
+                    String l = "0";
+                    String o = "0";
+                    String pc = "0";
+                    String t = "0";
+                    String v = "0";
+                    int v_int;
                     try {
                         Element element = doc.selectFirst("fin-streamer[data-field=regularMarketPrice]");
-                        String c = element != null ? element.attr("value").replaceAll(",", "") : "0";
+                        c = element != null ? element.attr("value").replaceAll(",", "") : "0";
                         element = doc.selectFirst("fin-streamer[data-field=regularMarketChange]");
-                        String d = element != null ? element.attr("value").replaceAll(",", "") : "0";
+                        d = element != null ? element.attr("value").replaceAll(",", "") : "0";
                         d = String.format("%.3f", Double.parseDouble(d)); // only need to 3rd decimal place, yh give tooooo detailed XD
                         element = doc.selectFirst("fin-streamer[data-field=regularMarketChangePercent]");
-                        String dp = element != null ? element.attr("value").replaceAll(",", "") : "0";
+                        dp = element != null ? element.attr("value").replaceAll(",", "") : "0";
                         dp = String.format("%.4f", Double.parseDouble(dp)); // only need to 4th decimal place, yh give tooooo detailed XD
                         element = doc.selectFirst("td[data-test='DAYS_RANGE-value']");
                         String[] daysRangeValues = element != null ? element.text().split(" - ") : new String[]{"0", "0"};
-                        String h = daysRangeValues[1];
-                        String l = daysRangeValues[0];
+                        h = daysRangeValues[1].replaceAll(",", "");
+                        l = daysRangeValues[0].replaceAll(",", "");
                         element = doc.selectFirst("td[data-test='OPEN-value']");
-                        String o = element != null ? element.text().replaceAll(",", "") : "0";
+                        o = element != null ? element.text().replaceAll(",", "") : "0";
                         element = doc.selectFirst("td[data-test='PREV_CLOSE-value']");
-                        String pc = element != null ? element.text().replaceAll(",", "") : "0";
-                        element = doc.selectFirst("fin-streamer[data-field=preMarketTime]");
-                        String t = element != null ? element.attr("value").replaceAll(",", "") : "0";
+                        pc = element != null ? element.text().replaceAll(",", "") : "0";
+                        Elements elements = doc.select("fin-streamer[data-field=preMarketTime]").eq(1); // want the second one here
+                        if (elements.size() > 0 && !elements.attr("value").isEmpty()) {
+                            t = elements.attr("value");
+                        }
                         element = doc.selectFirst("td[data-test='TD_VOLUME-value']");
-                        String v = element != null ? element.text().replace(",", "").replaceAll(",", "") : "0";
-                        v = v.replaceAll(",", "");
-                        StockObject responseData = new StockObject(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Long.parseLong(t), Integer.parseInt(v));
-                        if (responseData.checkStockIsValaid()){
+                        v = element != null ? element.text().replace(",", "").replaceAll(",", "") : "0";
+                        v_int = Integer.parseInt(element != null ? element.text().replace(",", "").replaceAll(",", "") : "0");
+                        StockObject responseData = new StockObject(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Long.parseLong(t), v_int);
+                        if (responseData.checkStockIsValaid()) {
                             Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toJSONObject_all());
                             listener.onYFResponse(responseData);
                         } else {
@@ -63,6 +78,7 @@ public class StockAPIHelper {
                         }
                     } catch (Exception e) {
                         Log.d("DEBUG_LOG", "Error in YFAPI call: " + e.getMessage());
+                        Log.d("DEBUG_LOG", "Error in YFAPI call2: " + c + "|" + d + "|" + dp + "|" + h + "|" + l + "|" + o + "|" + pc + "|" + t + "|" + v);
                         listener.onFailure(e);
                     }
                 }
