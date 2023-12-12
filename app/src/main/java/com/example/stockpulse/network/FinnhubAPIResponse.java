@@ -50,13 +50,14 @@ public class FinnhubAPIResponse implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "{close: " + c + ", "
-                + "difference: " + d + ", "
-                + "difference percent: " + dp + ", "
-                + "high: " + h + ", "
-                + "low: " + l + ", "
-                + "open: " + o + ", "
-                + "previous close: " + pc + ", "
-                + "timestamp: " + t + "}";
+        return "{c:"+c+",d:"+d+",dp:"+dp+",h:"+h+",l:"+l+",o:"+o+",pc:"+pc+",t:"+t+"}";
+        // return "{close: " + c + ", "
+        //         + "difference: " + d + ", "
+        //         + "difference percent: " + dp + ", "
+        //         + "high: " + h + ", "
+        //         + "low: " + l + ", "
+        //         + "open: " + o + ", "
+        //         + "previous close: " + pc + ", "
+        //         + "timestamp: " + t + "}";
     }
 }
