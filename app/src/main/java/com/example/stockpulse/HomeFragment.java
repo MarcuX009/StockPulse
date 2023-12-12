@@ -94,11 +94,13 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                                             .commit();
                                 }
                             }
+
                             @Override
                             public void onFailure(Throwable t) {
                                 Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
                                 Log.d("DEBUG_LOG", "Error: " + t.getMessage());
                             }
+
                             @Override
                             public void onFHResponse(FinnhubAPIResponse fhResponse) {
                                 // this should never be called, but it has to be implemented here to satisfy the interface
@@ -116,11 +118,13 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                                             .commit();
                                 }
                             }
+
                             @Override
                             public void onFailure(Throwable t) {
                                 Toast.makeText(getContext(), "Error code: FHAPIFAIL", Toast.LENGTH_SHORT).show();
                                 Log.d("DEBUG_LOG", "Error: " + t.getMessage());
                             }
+
                             @Override
                             public void onYFResponse(YahooFinanceAPIResponse yfResponse) {
                                 // this should never be called, but it has to be implemented here to satisfy the interface
@@ -134,6 +138,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         // Inflate the layout for this fragment
         return view;
     }
+
     public List<YahooFinanceAPIResponse> generateStockItem() {
         List<YahooFinanceAPIResponse> stockItemList = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -152,20 +157,22 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             stockItemList.add(responseData);
-                             if (completedRequests.incrementAndGet() == 10) {
+                            if (completedRequests.incrementAndGet() == 10) {
                                 stockAdapter.notifyDataSetChanged();
-                             }
+                            }
                         });
                         // stockItemList.add(responseData);
                         // stockAdapter.notifyDataSetChanged();
                         // stockItemList.add(new YahooFinanceAPIResponse(randomStock, sharedPreferences.getString(randomStock,"")));
                     }
                 }
+
                 @Override
                 public void onFailure(Throwable t) {
                     Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
                     Log.d("DEBUG_LOG", "Error: " + t.getMessage());
                 }
+
                 @Override
                 public void onFHResponse(FinnhubAPIResponse fhResponse) {
                     // this should never be called, but it has to be implemented here to satisfy the interface
@@ -178,7 +185,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position) {
-        Log.d("favList","List number:"+position);
+        Log.d("favList", "List number:" + position);
         Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
     }
 }
