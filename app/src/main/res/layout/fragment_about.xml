@@ -5,13 +5,104 @@
     android:layout_height="match_parent"
     tools:context=".AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/websiteLayer"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="About Us Fragment"
-        android:textColor="@color/cyan"
-        android:textSize="30sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_about">
+
+        <TextView
+            android:id="@+id/ourWebsiteLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Our Website"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/linkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ourWebsiteLayout"
+            android:layout_centerHorizontal="true"
+            android:autoLink="web"
+            android:text="https://sites.google.com/view/stockpulse/home"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/demoLayer"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/websiteLayer"
+        android:background="@drawable/shape_about">
+
+        <TextView
+            android:id="@+id/DemoLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Demo"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/videoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DemoLayout"
+            android:layout_centerHorizontal="true"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="https://sites.google.com/view/stockpulse/menu/video-demostration?authuser=0"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/authorLayer"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/demoLayer"
+        android:background="@drawable/shape_about">
+        <TextView
+            android:id="@+id/authorLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Author"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/wenJinTextView"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/authorLayout"
+            android:layout_centerHorizontal="true"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="https://www.linkedin.com/in/wenjinli009"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/alvinTextView"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wenJinTextView"
+            android:layout_centerHorizontal="true"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="www.linkedin.com/in/alvin-liou-07bb562a4"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
