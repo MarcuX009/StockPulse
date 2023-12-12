@@ -2,6 +2,7 @@ package com.example.stockpulse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
     EditText usernameEditText;
@@ -35,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private static final String PREFS_NAME = "StockPulse_Prefs";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("DEBUG_LOG", "User has a document in the database");
+                        updateLocalFavouritesList(document);
                     } else {
                         Log.d("DEBUG_LOG", "User does not have a document in the database, creating one");
                         createUserDocument();
@@ -125,5 +130,19 @@ public class LoginActivity extends AppCompatActivity {
                         Log.w("DEBUG_LOG", "Error writing document", e);
                     }
                 });
+    }
+
+    private void updateLocalFavouritesList(DocumentSnapshot document) {
+        List<String> favouritesList = (List<String>) document.get("favourites");
+        if (favouritesList != null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Set<String> favouritesSet = new HashSet<>(favouritesList);
+            editor.putStringSet("FavouritesList", favouritesSet);
+            editor.apply();
+            Log.d("DEBUG_LOG", "Updated local FavouritesList from Firestore");
+        } else {
+            Log.d("DEBUG_LOG", "No FavouritesList found in Firestore for this user");
+        }
     }
 }
