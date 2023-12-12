@@ -16,6 +16,11 @@ public class YahooFinanceAPIResponse implements Serializable {
     private double o; // 开盘价 open
     private double pc; // 昨日收盘价 previous close
     private int v; // 成交量 volume
+    private long t; // 时间戳 timestamp
+
+    public YahooFinanceAPIResponse(){
+        //empty constructor
+    }
 
     public YahooFinanceAPIResponse(String stockSymbol, String stockDict) {
         this.stockSymbol = stockSymbol;
