@@ -11,20 +11,22 @@
 
         <TextView
             android:id="@+id/stockNameDisplayLayout"
-            android:layout_width="147dp"
+            android:layout_width="95sp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="Stock Name"
+            android:text="Stock "
+            android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/stockValueDisplayLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="115dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="30sp"
+            android:layout_marginLeft="15sp"
+            android:gravity="right"
             android:text="Stock Value"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -32,22 +34,23 @@
 
         <TextView
             android:id="@+id/stockPercentUpDisplayLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="25sp"
-            android:layout_gravity="center"
+            android:gravity="right"
             android:text="Stock Percent"
             android:textColor="@color/green"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/stockPercentDownDisplayLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="25sp"
-            android:layout_gravity="center"
+            android:gravity="right"
             android:text="Stock Percent"
             android:textColor="@color/red"
             android:textSize="20sp"

@@ -1,5 +1,6 @@
 package com.example.stockpulse;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -145,14 +146,15 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
             String randomStock = (String) AllStockList.toArray()[randomIndex];
             Log.d("DEBUG_LOG", "Random Stock: " + randomStock);
             StockAPIHelper.YFAPICall(randomStock, new StockAPIHelper.ResponseListener() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onYFResponse(YahooFinanceAPIResponse responseData) {
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             stockItemList.add(responseData);
-                            // if (completedRequests.incrementAndGet() == 10) {
+                             if (completedRequests.incrementAndGet() == 10) {
                                 stockAdapter.notifyDataSetChanged();
-                            // }
+                             }
                         });
                         // stockItemList.add(responseData);
                         // stockAdapter.notifyDataSetChanged();
