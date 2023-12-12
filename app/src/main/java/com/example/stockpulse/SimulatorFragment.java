@@ -132,6 +132,8 @@ public class SimulatorFragment extends Fragment {
                 } else if (sellAmount > buyAmount) {
                     Toast.makeText(getContext(), "You can't sell more then you Buy", Toast.LENGTH_SHORT).show();
                 } else {
+                    positiveProfit.setVisibility(View.INVISIBLE);
+                    negativeProfit.setVisibility(View.INVISIBLE);
                     result = ((sellPrice * sellAmount) - (buyPrice * buyAmount));
                     if (result >= 0) {
                         formattedValue = String.format("%.2f", result);
