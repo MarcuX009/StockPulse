@@ -23,7 +23,7 @@
             android:layout_marginLeft="7dp"
             android:gravity="left"
             android:text="Stock "
-            android:textColor="#E6A027"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
             android:id="@+id/stockValueDisplayLayout"
             android:layout_width="88dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12sp"
+            android:layout_marginLeft="10sp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockNameDisplayLayout"
             android:text="Value"
@@ -43,7 +43,7 @@
             android:id="@+id/stockPercentUpDisplayLayout"
             android:layout_width="132dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15sp"
+            android:layout_marginLeft="12sp"
             android:layout_marginTop="8dp"
             android:gravity="left"
             android:layout_toRightOf="@+id/stockValueDisplayLayout"
@@ -58,7 +58,7 @@
             android:id="@+id/stockPercentDownDisplayLayout"
             android:layout_width="132dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockValueDisplayLayout"
             android:text="Stock Percent"
@@ -75,7 +75,7 @@
             android:src ="@drawable/ic_down"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockPercentDownDisplayLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:visibility="gone"/>
         <ImageView
             android:id="@+id/arrowUpLayout"
@@ -84,7 +84,7 @@
             android:src ="@drawable/ic_up"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/stockPercentUpDisplayLayout"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:visibility="gone"/>
 
 
