@@ -190,8 +190,34 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position) {
-        Log.d("favList", "List number:" + position);
-        Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
+        Log.d("Home Frag", "List number:" + position);
+        if (!stockItemList.isEmpty()) {
+            StockObject element = stockItemList.get(position);
+            String symbol = element.getStockSymbol();
+            StockAPIHelper.YFAPICall(symbol, new StockAPIHelper.ResponseListener() {
+                @Override
+                public void onYFResponse(StockObject response) {
+                    if (getActivity() != null) {
+                        StockFragment fragment = StockFragment.newInstance(response, null);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+
+                @Override
+                public void onFHResponse(StockObject fhResponse) {
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
+                    Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                }
+            });
+        }
+
     }
 
     @Override
