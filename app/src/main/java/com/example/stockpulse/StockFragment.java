@@ -140,10 +140,10 @@ public class StockFragment extends Fragment {
                     Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet("FavouritesList", new HashSet<>()));                 
                     if (yf_Info != null) {
                         favourites.add(yf_Info.getStockSymbol());
-                        editor.putString(yf_Info.getStockSymbol(), yf_Info.toJSONObject_cd());
+//                        editor.putString(yf_Info.getStockSymbol(), yf_Info.toJSONObject_cd());
                     } else if (fh_Info != null) {
                         favourites.add(fh_Info.getStockSymbol());
-                        editor.putString(fh_Info.getStockSymbol(), fh_Info.toJSONObject_cd());
+//                        editor.putString(fh_Info.getStockSymbol(), fh_Info.toJSONObject_cd());
                     }
                     editor.putStringSet("FavouritesList", favourites);
                     editor.apply();
@@ -152,7 +152,7 @@ public class StockFragment extends Fragment {
                     Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
                     for (String favourite : favouritesSet) {
                         Log.d("DEBUG_LOG", "Favourite: " + favourite);
-                        Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite, ""));
+//                        Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite, ""));
                     }
                 } catch (Exception e) {
                     Log.d("DEBUG_LOG", "Error: " + e.getMessage());
