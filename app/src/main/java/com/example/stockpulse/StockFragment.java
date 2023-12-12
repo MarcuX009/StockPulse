@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
@@ -36,8 +36,8 @@ public class StockFragment extends Fragment {
     private TextView o_TextView;
     private TextView pc_TextView;
     private TextView v_TextView;
-    private Button saveButton;
-    private Button shareButton;
+    private ImageButton saveButton;
+    private ImageButton shareButton;
 
     public StockFragment() {
         // Required empty public constructor
