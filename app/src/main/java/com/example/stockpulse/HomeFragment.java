@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.StockAPIHelper;
@@ -135,12 +136,39 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
     public List<YahooFinanceAPIResponse> generateStockItem() {
         List<YahooFinanceAPIResponse> stockItemList = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
-        Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
-        for (String favourite : favouritesSet) {
-            Log.d("DEBUG_LOG", "Favourite: " + favourite);
-            Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite,""));
-            stockItemList.add(new YahooFinanceAPIResponse(favourite, sharedPreferences.getString(favourite,"")));
+        Set<String> AllStockList = new HashSet<>(sharedPreferences.getStringSet("AllStockList", new HashSet<>()));
+        Log.d("DEBUG_LOG", "AllStockList in HomeFragment: " + AllStockList);
+        // pick 10 random stocks from the list
+        AtomicInteger completedRequests = new AtomicInteger(0); // using counter to keep track of how many requests have been completed
+        for (int i = 0; i < 10; i++) {
+            int randomIndex = (int) (Math.random() * AllStockList.size());
+            String randomStock = (String) AllStockList.toArray()[randomIndex];
+            Log.d("DEBUG_LOG", "Random Stock: " + randomStock);
+            StockAPIHelper.YFAPICall(randomStock, new StockAPIHelper.ResponseListener() {
+                @Override
+                public void onYFResponse(YahooFinanceAPIResponse responseData) {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            stockItemList.add(responseData);
+                            // if (completedRequests.incrementAndGet() == 10) {
+                                stockAdapter.notifyDataSetChanged();
+                            // }
+                        });
+                        // stockItemList.add(responseData);
+                        // stockAdapter.notifyDataSetChanged();
+                        // stockItemList.add(new YahooFinanceAPIResponse(randomStock, sharedPreferences.getString(randomStock,"")));
+                    }
+                }
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
+                    Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                }
+                @Override
+                public void onFHResponse(FinnhubAPIResponse fhResponse) {
+                    // this should never be called, but it has to be implemented here to satisfy the interface
+                }
+            });
         }
         return stockItemList;
     }
