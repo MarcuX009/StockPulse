@@ -1,6 +1,5 @@
 package com.example.stockpulse;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
-import com.example.stockpulse.network.YahooFinanceAPIResponse;
+import com.example.stockpulse.network.StockObject;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +24,8 @@ import java.util.Set;
 public class StockFragment extends Fragment {
     private static final String PREFS_NAME = "StockPulse_Prefs";
     private static final String ARG_SATELLITES = "STOCK";
-    private YahooFinanceAPIResponse yf_Info;
-    private FinnhubAPIResponse fh_Info;
+    private StockObject yf_Info;
+    private StockObject fh_Info;
     private View view;
     private TextView stockSymbol_TextView;
     private TextView c_TextView;
@@ -43,7 +43,7 @@ public class StockFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static StockFragment newInstance(YahooFinanceAPIResponse yfStockInfo, FinnhubAPIResponse fhStockInfo) {
+    public static StockFragment newInstance(StockObject yfStockInfo, StockObject fhStockInfo) {
         StockFragment fragment = new StockFragment();
         Bundle args = new Bundle();
         if (yfStockInfo != null) {
@@ -60,11 +60,11 @@ public class StockFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d("DEBUG_LOG", "StockFragment onCreate started...");
         if (getArguments() != null) {
-            if (getArguments().getSerializable(ARG_SATELLITES) instanceof YahooFinanceAPIResponse) {
-                yf_Info = (YahooFinanceAPIResponse) getArguments().getSerializable(ARG_SATELLITES);
+            if (getArguments().getSerializable(ARG_SATELLITES) instanceof StockObject) {
+                yf_Info = (StockObject) getArguments().getSerializable(ARG_SATELLITES);
                 Log.d("DEBUG_LOG", "StockFragment onCreate:\n" + yf_Info);
             } else if (getArguments().getSerializable(ARG_SATELLITES) instanceof FinnhubAPIResponse) {
-                fh_Info = (FinnhubAPIResponse) getArguments().getSerializable(ARG_SATELLITES);
+                fh_Info = (StockObject) getArguments().getSerializable(ARG_SATELLITES);
                 Log.d("DEBUG_LOG", "StockFragment onCreate:\n" + fh_Info);
             }
         } else {
@@ -125,10 +125,10 @@ public class StockFragment extends Fragment {
                     Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet("FavouritesList", new HashSet<>()));
                     if (yf_Info != null) {
                         favourites.add(yf_Info.getStockSymbol());
-                        editor.putString(yf_Info.getStockSymbol(), yf_Info.toString());
+                        editor.putString(yf_Info.getStockSymbol(), yf_Info.toJSONObject_cd());
                     } else if (fh_Info != null) {
                         favourites.add(fh_Info.getStockSymbol());
-                        editor.putString(fh_Info.getStockSymbol(), fh_Info.toString());
+                        editor.putString(fh_Info.getStockSymbol(), fh_Info.toJSONObject_cd());
                     }
                     editor.putStringSet("FavouritesList", favourites);
                     editor.apply();
@@ -136,7 +136,7 @@ public class StockFragment extends Fragment {
                     Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
                     for (String favourite : favouritesSet) {
                         Log.d("DEBUG_LOG", "Favourite: " + favourite);
-                        Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite,""));
+                        Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite, ""));
                     }
                 } catch (Exception e) {
                     Log.d("DEBUG_LOG", "Error: " + e.getMessage());

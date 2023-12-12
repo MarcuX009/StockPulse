@@ -4,12 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.stockpulse.network.FinnhubAPIResponse;
-import com.example.stockpulse.network.FinnhubService;
-import com.example.stockpulse.network.RetrofitInstance;
-import com.example.stockpulse.network.YahooFinanceAPIResponse;
-import com.example.stockpulse.network.YahooFinanceService;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -19,8 +13,8 @@ import retrofit2.Response;
 
 public class StockAPIHelper {
     public interface ResponseListener {
-        void onYFResponse(YahooFinanceAPIResponse response);
-        void onFHResponse(FinnhubAPIResponse fhResponse);
+        void onYFResponse(StockObject response);
+        void onFHResponse(StockObject fhResponse);
         void onFailure(Throwable t);
     }
 
@@ -45,13 +39,24 @@ public class StockAPIHelper {
                         String l = daysRangeValues[0];
                         String o = doc.select("td[data-test='OPEN-value']").first().text();
                         String pc = doc.select("td[data-test='PREV_CLOSE-value']").first().text();
+                        String t = "0";
+//                        try{
+//                            t = doc.select("fin-streamer[data-field=preMarketTime]").eq(1).attr("value");
+//                        }catch (Exception e){
+//                            Log.d("DEBUG_LOG", "No preMarketTime");
+//                            t = "0";
+//                        }
                         String v = doc.select("td[data-test='TD_VOLUME-value']").first().text().replace(",", "");
-                        YahooFinanceAPIResponse responseData = new YahooFinanceAPIResponse(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Integer.parseInt(v));
-                        Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toString());
-                        listener.onYFResponse(responseData);
-
+                        StockObject responseData = new StockObject(userInputStockSymbol, Double.parseDouble(c), Double.parseDouble(d), Double.parseDouble(dp), Double.parseDouble(h), Double.parseDouble(l), Double.parseDouble(o), Double.parseDouble(pc), Long.parseLong(t), Integer.parseInt(v));
+                        if (responseData.checkStockIsValaid()){
+                            Log.d("DEBUG_LOG", "Testing API call from YF:\n" + responseData.toJSONObject_all());
+                            listener.onYFResponse(responseData);
+                        } else {
+                            Log.d("DEBUG_LOG", "Stock is invalid");
+                            listener.onFailure(new Throwable("Stock is invalid"));
+                        }
                     } catch (Exception e) {
-                        Log.d("DEBUG_LOG", "Error: " + e.getMessage());
+                        Log.d("DEBUG_LOG", "Error in YFAPI call: " + e.getMessage());
                         listener.onFailure(e);
                     }
                 }
@@ -68,13 +73,13 @@ public class StockAPIHelper {
     public static void FHAPICall(String userInputStockSymbol, ResponseListener listener) {
         Log.d("DEBUG_LOG", "User Input in API Helper: " + userInputStockSymbol);
         FinnhubService FH_service = RetrofitInstance.getFinnhubRetrofitInstance().create(FinnhubService.class);
-        Call<FinnhubAPIResponse> FH_call = FH_service.getStockData(userInputStockSymbol, "clmkkrhr01qjj8i8joi0clmkkrhr01qjj8i8joig");
-        FH_call.enqueue(new Callback<FinnhubAPIResponse>() {
+        Call<StockObject> FH_call = FH_service.getStockData(userInputStockSymbol, "clmkkrhr01qjj8i8joi0clmkkrhr01qjj8i8joig");
+        FH_call.enqueue(new Callback<StockObject>() {
             @Override
-            public void onResponse(@NonNull Call<FinnhubAPIResponse> call, @NonNull Response<FinnhubAPIResponse> response) {
+            public void onResponse(@NonNull Call<StockObject> call, @NonNull Response<StockObject> response) {
                 if (response.isSuccessful()) {
                     try {
-                        FinnhubAPIResponse responseData = response.body();
+                        StockObject responseData = response.body();
                         assert responseData != null;
                         responseData.setStockSymbol(userInputStockSymbol);
                         Log.d("DEBUG_LOG", "Testing API call from FH:\n" + responseData.toString());
@@ -87,7 +92,7 @@ public class StockAPIHelper {
             }
 
             @Override
-            public void onFailure(@NonNull Call<FinnhubAPIResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<StockObject> call, @NonNull Throwable t) {
                 Log.d("DEBUG_LOG", "API request failed: " + t.getMessage());
                 listener.onFailure(t);
             }
