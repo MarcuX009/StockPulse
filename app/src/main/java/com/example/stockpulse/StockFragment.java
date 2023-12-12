@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -15,15 +16,29 @@ import android.widget.TextView;
 
 import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.StockObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
 public class StockFragment extends Fragment {
     private static final String PREFS_NAME = "StockPulse_Prefs";
     private static final String ARG_SATELLITES = "STOCK";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StockObject yf_Info;
     private StockObject fh_Info;
     private View view;
@@ -122,7 +137,7 @@ public class StockFragment extends Fragment {
                 try {
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet("FavouritesList", new HashSet<>()));
+                    Set<String> favourites = new HashSet<>(sharedPreferences.getStringSet("FavouritesList", new HashSet<>()));                 
                     if (yf_Info != null) {
                         favourites.add(yf_Info.getStockSymbol());
                         editor.putString(yf_Info.getStockSymbol(), yf_Info.toJSONObject_cd());
@@ -132,6 +147,7 @@ public class StockFragment extends Fragment {
                     }
                     editor.putStringSet("FavouritesList", favourites);
                     editor.apply();
+                    saveFavouritesToFirestore(favourites);
                     Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
                     Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
                     for (String favourite : favouritesSet) {
@@ -152,4 +168,17 @@ public class StockFragment extends Fragment {
 
         return view;
     }
+
+    private void saveFavouritesToFirestore(Set<String> favourites) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Map<String, Object> userFavourites = new HashMap<>();
+        userFavourites.put("favourites", new ArrayList<>(favourites)); // transform Set to ArrayList
+
+        db.collection("users").document(userId)
+                .set(userFavourites, SetOptions.merge()) // use merge to update the document instead of overwriting it
+                .addOnSuccessListener(aVoid -> Log.d("DEBUG_LOG", "Favourites successfully written!"))
+                .addOnFailureListener(e -> Log.w("DEBUG_LOG", "Error writing document", e));
+    }
+
 }

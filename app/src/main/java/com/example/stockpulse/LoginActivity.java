@@ -15,9 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     EditText usernameEditText;
@@ -26,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
 
     FirebaseAuth mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(LoginActivity.this, "User logged in successfully", Toast.LENGTH_SHORT).show();
-                        Log.d("DEBUG_LOG", "User logged in successfully ");
+                        Log.d("DEBUG_LOG", "User logged in successfully!");
+                        checkUserDocument();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     } else {
                         Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -73,5 +83,47 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void checkUserDocument() {
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("DEBUG_LOG", "User has a document in the database");
+                    } else {
+                        Log.d("DEBUG_LOG", "User does not have a document in the database, creating one");
+                        createUserDocument();
+                    }
+                } else {
+                    Log.d("DEBUG_LOG", "Failed to check if user document exists: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void createUserDocument() {
+        String email = mAuth.getCurrentUser().getEmail();
+        Map<String, Object> user = new HashMap<>();
+        user.put("username", email);
+        // It's generally not a good practice to store passwords in Firestore.
+        // Consider storing other relevant user information instead.
+        db.collection("users").document(mAuth.getCurrentUser().getUid())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("DEBUG_LOG", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("DEBUG_LOG", "Error writing document", e);
+                    }
+                });
     }
 }
