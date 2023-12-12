@@ -6,7 +6,7 @@
     tools:context=".FavouritesFragment">
 
     <ImageView
-        android:id="@+id/imageViewLayout"
+        android:id="@+id/imageViewRegisterLayout"
         android:layout_width="260dp"
         android:layout_height="131dp"
         android:layout_centerHorizontal="true"
@@ -14,7 +14,7 @@
         android:src="@drawable/login" />
 
     <EditText
-        android:id="@+id/usernameLayout"
+        android:id="@+id/userNameRegisterLayout"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -26,7 +26,7 @@
         android:inputType="textEmailAddress"/>
 
     <EditText
-        android:id="@+id/passwordLayout"
+        android:id="@+id/passwordRegisterLayout"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -38,7 +38,7 @@
         android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/registerButton"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -46,15 +46,15 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="#1EDC20"
-        android:text="Login"
+        android:text="Register"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/registerHereLayout"
+        android:id="@+id/logInHereLayout"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
-        android:text="New user? register here"
+        android:text="Already Register? Login here"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
