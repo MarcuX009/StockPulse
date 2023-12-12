@@ -70,4 +70,12 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
         Log.d("favList","List number:"+position);
         Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onItemLongClick(int position) {
+        stockItemList.remove(position);
+        stockAdapter.notifyItemRemoved(position);
+        Toast.makeText(getActivity(), "Long Click detected stock removed", Toast.LENGTH_SHORT).show();
+    }
+
 }

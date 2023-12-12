@@ -188,4 +188,9 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         Log.d("favList", "List number:" + position);
         Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onItemLongClick(int position) {
+        Log.d("DEBUG_LOG", "Long Click detected :" + position);
+    }
 }
