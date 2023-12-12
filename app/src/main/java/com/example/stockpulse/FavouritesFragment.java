@@ -14,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.stockpulse.network.FinnhubAPIResponse;
 import com.example.stockpulse.network.YahooFinanceAPIResponse;
+import com.example.stockpulse.network.StockAPIHelper;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +29,7 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     private List<YahooFinanceAPIResponse> stockItemList;
     private RecyclerView favRecyclerView;
     private stockAdapter stockAdapter;
+    private  Set<String> favouritesSet;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -55,7 +59,7 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
         List<YahooFinanceAPIResponse> stockItemList = new ArrayList<>();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        Set<String> favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
+        favouritesSet = sharedPreferences.getStringSet("FavouritesList", new HashSet<>());
         Log.d("DEBUG_LOG", "FavouritesList: " + favouritesSet);
         for (String favourite : favouritesSet) {
             Log.d("DEBUG_LOG", "Favourite: " + favourite);
@@ -68,7 +72,32 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     @Override
     public void onItemClick(int position) {
         Log.d("favList","List number:"+position);
-        Toast.makeText(getActivity(), "this is item number: " + position, Toast.LENGTH_SHORT).show();
+        if(!stockItemList.isEmpty()){
+            YahooFinanceAPIResponse element = stockItemList.get(position);
+            String symbol = element.getStockSymbol();
+            StockAPIHelper.YFAPICall(symbol, new StockAPIHelper.ResponseListener() {
+                @Override
+                public void onYFResponse(YahooFinanceAPIResponse response) {
+                    if (getActivity() != null) {
+                        StockFragment fragment = StockFragment.newInstance(response, null);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+                @Override
+                public void onFHResponse(FinnhubAPIResponse fhResponse) {
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
+                    Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                }
+            });
+        }
+
     }
 
     @Override
