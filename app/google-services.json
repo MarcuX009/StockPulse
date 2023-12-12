@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "26655909757",
+    "project_id": "stock-pulse-663c2",
+    "storage_bucket": "stock-pulse-663c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26655909757:android:1c371030b8524e9d1a4e14",
+        "android_client_info": {
+          "package_name": "com.example.stockpulse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26655909757-3lmfk5tfbohs86j8ism66khh19eraf9o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stockpulse",
+            "certificate_hash": "e2edb4dadc41d91378c5d2a153e047d4c6dffbab"
+          }
+        },
+        {
+          "client_id": "26655909757-qku5aimmir1rj4rl79obqk75kotvfoco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmqXAP5Max5MNyeuddUkzKrvccV3gS7sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26655909757-qku5aimmir1rj4rl79obqk75kotvfoco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
