@@ -27,7 +27,7 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
     private List<StockObject> stockItemList;
     private RecyclerView favRecyclerView;
     private stockAdapter stockAdapter;
-    private  Set<String> favouritesSet;
+    private Set<String> favouritesSet;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -63,21 +63,21 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
         for (String favourite : favouritesSet) {
             Log.d("DEBUG_LOG", "Favourite: " + favourite);
             Log.d("DEBUG_LOG", "Info:" + sharedPreferences.getString(favourite, ""));
-            // split the sharedPreferences.getString(favourite,"")
-             String[] stockDictList = sharedPreferences.getString(favourite, "").split(",");
-             StockObject stockObject = new StockObject();
-             stockObject.setStockSymbol(favourite);
-             stockObject.setC(Double.parseDouble(stockDictList[0].split(":")[1]));
-             stockObject.setD(Double.parseDouble(stockDictList[1].split(":")[1]));
-             stockItemList.add(stockObject);
+            // split the sharedPreferences.getString(favourite,"") : {c:192.685,d:-0.495}
+            // cut the { and }
+            String[] info = sharedPreferences.getString(favourite, "").substring(1, sharedPreferences.getString(favourite, "").length() - 1).split(",");
+            String c = info[0].split(":")[1];
+            String d = info[1].split(":")[1];
+            StockObject stockObject = new StockObject(favourite, Double.parseDouble(c), Double.parseDouble(d));
+            stockItemList.add(stockObject);
         }
         return stockItemList;
     }
 
     @Override
     public void onItemClick(int position) {
-        Log.d("favList","List number:"+position);
-        if(!stockItemList.isEmpty()){
+        Log.d("favList", "List number:" + position);
+        if (!stockItemList.isEmpty()) {
             StockObject element = stockItemList.get(position);
             String symbol = element.getStockSymbol();
             StockAPIHelper.YFAPICall(symbol, new StockAPIHelper.ResponseListener() {
@@ -91,6 +91,7 @@ public class FavouritesFragment extends Fragment implements RecyclerViewInterfac
                                 .commit();
                     }
                 }
+
                 @Override
                 public void onFHResponse(StockObject fhResponse) {
                 }
