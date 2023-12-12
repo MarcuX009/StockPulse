@@ -33,7 +33,9 @@ public class StockAPIHelper {
                     try {
                         String c = doc.selectFirst("fin-streamer[data-field=regularMarketPrice]").attr("value");
                         String d = doc.selectFirst("fin-streamer[data-field=regularMarketChange]").attr("value");
+                        d = String.format("%.3f", Double.parseDouble(d)); // only need to 3rd decimal place, yh give tooooo detailed XD
                         String dp = doc.selectFirst("fin-streamer[data-field=regularMarketChangePercent]").attr("value");
+                        dp = String.format("%.4f", Double.parseDouble(dp)); // only need to 4th decimal place, yh give tooooo detailed XD
                         String[] daysRangeValues = doc.select("td[data-test='DAYS_RANGE-value']").first().text().split(" - ");
                         String h = daysRangeValues[1];
                         String l = daysRangeValues[0];
