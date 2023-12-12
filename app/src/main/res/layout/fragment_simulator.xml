@@ -44,13 +44,14 @@
 
     <TextView
         android:id="@+id/simulatorStockPriceValueLayout"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:layout_width="75sp"
+        android:layout_height="50sp"
         android:layout_below="@+id/simulatorUserInputLayout"
         android:layout_centerInParent="true"
         android:layout_marginTop="14dp"
+        android:gravity="center"
         android:text="value"
-        android:textSize="30sp" />
+        android:textSize="21sp" />
 
     <TextView
         android:id="@+id/buyLayout"

@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.stockpulse.network.FinnhubAPIResponse;
+import com.example.stockpulse.network.StockAPIHelper;
+import com.example.stockpulse.network.YahooFinanceAPIResponse;
+
 public class SimulatorFragment extends Fragment {
 
     //UI variable
@@ -68,6 +73,37 @@ public class SimulatorFragment extends Fragment {
         buyAmountInput = view.findViewById(R.id.buyInputAmountLayout);
         sellPriceInput = view.findViewById(R.id.sellInputPriceLayout);
         sellAmountInput = view.findViewById(R.id.sellInputAmountLayout);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userInput = searchUserInput.getText().toString().toUpperCase();
+                if(!userInput.isEmpty()){
+                    StockAPIHelper.YFAPICall(userInput, new StockAPIHelper.ResponseListener() {
+                        @Override
+                        public void onYFResponse(YahooFinanceAPIResponse response) {
+                            if (getActivity()!=null){
+                                stockName.setText(response.getStockSymbol());
+                                stockValue.setText(String.valueOf(response.getC()));
+                            }
+                        }
+                        @Override
+                        public void onFHResponse(FinnhubAPIResponse fhResponse) {
+                            // this should never be called, but it has to be implemented here to satisfy the interface
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Toast.makeText(getContext(), "Error code: YFAPIFAIL", Toast.LENGTH_SHORT).show();
+                            Log.d("DEBUG_LOG", "Error: " + t.getMessage());
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(getContext(), "Please enter something", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
